@@ -3,13 +3,11 @@ package ru.ey.samarin.bluetoothen
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import ru.ey.samarin.bluetoothen.ui.theme.BluetoothenTheme
 
 class MainActivity : ComponentActivity() {
@@ -18,26 +16,43 @@ class MainActivity : ComponentActivity() {
         setContent {
             BluetoothenTheme {
                 // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.background
+                Scaffold(modifier = Modifier.fillMaxSize(),
+                    topBar = {
+                        TopAppBar {
+                            Text(
+                                modifier = Modifier.padding(start = 16.dp),
+                                text = "Bluetooth api sample with compose UI"
+                            )
+                        }
+                    }
                 ) {
-                    Greeting("Android")
+                    ScanDevicesScreen {
+                        goToListOfBluetoothDevices()
+                    }
                 }
             }
         }
     }
+
+    private fun goToListOfBluetoothDevices() {
+        // TODO: go to another fragment or activity
+    }
 }
 
 @Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    BluetoothenTheme {
-        Greeting("Android")
+fun ScanDevicesScreen(
+    onClick: () -> Unit,
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(all = 16.dp),
+        horizontalArrangement = Arrangement.Center,
+    ) {
+        Button(onClick = {
+            onClick()
+        }) {
+            Text(text = "Find devices")
+        }
     }
 }
