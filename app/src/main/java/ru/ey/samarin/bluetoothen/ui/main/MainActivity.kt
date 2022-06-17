@@ -1,5 +1,6 @@
-package ru.ey.samarin.bluetoothen
+package ru.ey.samarin.bluetoothen.ui.main
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -8,6 +9,8 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import ru.ey.samarin.bluetoothen.ui.common.SimpleToolbar
+import ru.ey.samarin.bluetoothen.ui.devicelist.DeviceListActivity
 import ru.ey.samarin.bluetoothen.ui.theme.BluetoothenTheme
 
 class MainActivity : ComponentActivity() {
@@ -16,15 +19,9 @@ class MainActivity : ComponentActivity() {
         setContent {
             BluetoothenTheme {
                 // A surface container using the 'background' color from the theme
-                Scaffold(modifier = Modifier.fillMaxSize(),
-                    topBar = {
-                        TopAppBar {
-                            Text(
-                                modifier = Modifier.padding(start = 16.dp),
-                                text = "Bluetooth api sample with compose UI"
-                            )
-                        }
-                    }
+                Scaffold(
+                    modifier = Modifier.fillMaxSize(),
+                    topBar = { SimpleToolbar(title = "Bluetooth api sample with compose UI") },
                 ) {
                     ScanDevicesScreen {
                         goToListOfBluetoothDevices()
@@ -35,24 +32,8 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun goToListOfBluetoothDevices() {
-        // TODO: go to another fragment or activity
-    }
-}
-
-@Composable
-fun ScanDevicesScreen(
-    onClick: () -> Unit,
-) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(all = 16.dp),
-        horizontalArrangement = Arrangement.Center,
-    ) {
-        Button(onClick = {
-            onClick()
-        }) {
-            Text(text = "Find devices")
+        Intent(this, DeviceListActivity::class.java).also {
+            startActivity(it)
         }
     }
 }
